@@ -1,0 +1,28 @@
+<mat-drawer-container class="example-container">
+    <mat-drawer-content>
+        <mat-card class="profile-setting">
+            <mat-card>
+                <h4>ADD PROPERTY</h4>
+
+                <form [formGroup]="addPropertyForm">
+                    <div class="row">
+
+                        <div class="col-12 mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="" value="" formControlName="name">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" placeholder="" value="" formControlName="description">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="size">Size</label>
+                            <input type="text" class="form-control" id="size" placeholder="" value="" formControlName="size">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" (click)="onAdd()">ADD PROPERTY</button>
+                </form>
+            </mat-card>
+        </mat-card>
+    </mat-drawer-content>
+</mat-drawer-container>
