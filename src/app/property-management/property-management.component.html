@@ -10,13 +10,12 @@
                 <button type="button" class="btn btn-success" (click)="addProperty()">ADD PROPERTY</button>
             </div>
             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <!-- <button type="button" class="btn btn-danger mx-3" (click)="deleteProperty('')">DELETE PROPERTY</button> -->
             </div>
         </div>
 
     </div>
 
-    <div *ngIf="propertyData">
+    <div>
         <mat-form-field appearance="standard">
             <mat-label>Filter</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
@@ -43,18 +42,10 @@
                     <td mat-cell *matCellDef="let row"> {{row.size}} </td>
                 </ng-container>
 
-                <!-- Edit Column -->
-                <!-- <ng-container matColumnDef="edit">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Edit </th>
-                <td mat-cell *matCellDef="let row">
-                    <button (click)="onEdit(row)">EDIT</button>
-                </td>
-            </ng-container> -->
-
                 <!-- Delete Column -->
                 <ng-container matColumnDef="delete">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Delete </th>
-                    <td mat-cell *matCellDef="let row; let i = index"> <button type="button" class="btn btn-danger" (click)="deleteProperty(i)">DELETE</button> </td>
+                    <td mat-cell *matCellDef="let row; let i = index"> <button type="button" class="btn btn-danger" (click)="deleteProperty(row)">DELETE</button> </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

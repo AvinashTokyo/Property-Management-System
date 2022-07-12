@@ -6,25 +6,20 @@ import { MatTableDataSource } from '@angular/material/table';
 import { first } from 'rxjs';
 import { AddPropertyService } from '../add-property.service';
 import { AddPropertyComponent } from '../add-property/add-property.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-property-management',
   templateUrl: './property-management.component.html',
   styleUrls: ['./property-management.component.scss'],
 })
-export class PropertyManagementComponent implements AfterViewInit, OnInit {
-
+export class PropertyManagementComponent implements OnInit {
   sendValue!: string;
   dialogValue!: string;
 
   propertyData: any;
 
-  displayedColumns: string[] = [
-    'name',
-    'description',
-    'size',
-    'delete',
-  ];
+  displayedColumns: string[] = ['name', 'description', 'size', 'delete'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -32,50 +27,47 @@ export class PropertyManagementComponent implements AfterViewInit, OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private service: AddPropertyService) {
-    this.dataSource = new MatTableDataSource(this.propertyData);
-  }
+    private service: AddPropertyService
+    ) {}
+
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.propertyData);
     this.getPropertyData();
   }
 
-  getPropertyData(){
-    this.service.getProperty()
-    .pipe(first())
-    .subscribe(
-      {
+  getPropertyData() {
+    this.service
+      .getProperty()
+      .pipe(first())
+      .subscribe({
         next: (res) => {
-          // this.dataSource = new MatTableDataSource(this.propertyData);
-          // this.dataSource.paginator = this.paginator;
+          //       this.dataSource.paginator = this.paginator;
           // this.dataSource.sort = this.sort;
           this.propertyData = res;
-          console.log(this.propertyData, "get Data from GET PROPERTY DATA");
-        }
-      }
-    )
+          console.log(this.propertyData, 'get Data from GET PROPERTY DATA');
+        },
+      });
   }
 
-  addPropertyData(reqBody:any){
-    this.service.addProperty(reqBody)
-    .pipe(first())
-    .subscribe( {
-      next: (res) => {
-        console.log("Data Added Successfully", res);
+  addPropertyData(reqBody: any) {
+    this.service
+      .addProperty(reqBody)
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          console.log('Data Added Successfully', res);
+          this.getPropertyData();
+        },
+        error: (err) => {
+          console.log('Data Not Added', err);
+        },
+      });
 
-      },
-      error: (err) => {
-        console.log("Data Not Added" , err);
-
-      }
-    });
-
-    this.getPropertyData();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    // this.getPropertyData();
   }
 
   applyFilter(event: Event) {
@@ -96,25 +88,55 @@ export class PropertyManagementComponent implements AfterViewInit, OnInit {
     this.openDialog();
   }
 
-  deleteProperty(index:number){
-    // console.log(index, 'rowwww');
-    // this.propertyData.splice();
-    // this.propertyData.filter((q:any, i:any) => index != i ?? q);
+  propertyID = '';
+  deleteProperty(row: any) {
+    this.openDeleteDialog();
+    console.log(row, 'rowwww');
+    this.propertyID = row._id;
   }
-
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddPropertyComponent, {
       width: '500px',
-      data: {
-        pageValue: this.sendValue,
-      },
+      // data: {
+      //   data: this.sendValue,
+      // },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       this.dialogValue = result.data;
       this.addPropertyData(this.dialogValue);
+      this.getPropertyData();
+    });
+  }
 
+  deletePropertyService(id: any) {
+    this.service
+      .deleteProperty(id)
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          console.log('Deleted Successfully');
+          this.getPropertyData();
+        },
+        error: (err) => {
+          console.log('Error from delete', err);
+        },
+      });
+  }
+
+  isDelete: any = '';
+  openDeleteDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '250px',
+      // data: this.isDelete,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.isDelete = result.data;
+      if (this.isDelete == 'YES') {
+        this.deletePropertyService(this.propertyID);
+      }
     });
   }
 }

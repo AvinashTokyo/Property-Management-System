@@ -25,10 +25,7 @@ export class AddPropertyComponent implements OnInit {
     })
   }
 
-
-
   onAdd(){
-    // console.log(this.addPropertyForm.value, "addData");
     this.data = this.addPropertyForm.value;
     this.addPropertyForm.reset();
     this.dialogRef.close({
@@ -36,6 +33,5 @@ export class AddPropertyComponent implements OnInit {
       data: this.data
     });
   }
-
 
 }

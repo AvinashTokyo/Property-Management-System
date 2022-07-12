@@ -19,4 +19,8 @@ export class AddPropertyService {
   getProperty(){
     return this.http.get<any>(`${this.host}/get-property-data`);
   }
+
+  deleteProperty(id:any){
+    return this.http.delete<any>(`${this.host}/delete-property-data/${id}`);
+  }
 }

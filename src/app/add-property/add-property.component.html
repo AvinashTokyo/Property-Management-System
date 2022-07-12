@@ -20,7 +20,7 @@
                             <input type="text" class="form-control" id="size" placeholder="" value="" formControlName="size">
                         </div>
                     </div>
-                    <button class="btn btn-primary" type="submit" (click)="onAdd()">ADD PROPERTY</button>
+                    <button class="btn btn-primary" type="submit" (click)="onAdd()" [disabled]="addPropertyForm.invalid">ADD PROPERTY</button>
                 </form>
             </mat-card>
         </mat-card>
