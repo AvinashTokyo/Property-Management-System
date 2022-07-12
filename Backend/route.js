@@ -23,4 +23,16 @@ app.get('/get-property-data', async(request, response) => {
     }
 });
 
+app.delete('/delete-property-data/:id', async(request, response) => {
+    let id = request.params.id;
+
+    const user = await addModel.deleteOne({ "_id": id });
+
+    try {
+        response.send(user);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+})
+
 module.exports = app;

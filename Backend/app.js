@@ -9,7 +9,6 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-
 // CORS
 const corsOptions = {
     origin: 'http://localhost:4200',
@@ -24,13 +23,12 @@ app.use(express.json());
 mongoose.connect('mongodb+srv://whiskey2022:whiskey2022@whiskey.wolqdni.mongodb.net/Property-Management-System?retryWrites=true&w=majority');
 
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
+db.on("error", console.error.bind(console, "Connection Error: "));
 db.once("open", function() {
     console.log("Connected Successfully");
 });
 
 app.use(route);
-// app.use(adminRoute);
 app.listen(3000, () => {
     console.log('Example app listening on port 3000!');
 })

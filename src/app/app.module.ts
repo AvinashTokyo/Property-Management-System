@@ -16,13 +16,15 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PropertyManagementComponent,
-    AddPropertyComponent
+    AddPropertyComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
